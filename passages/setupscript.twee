@@ -1,0 +1,37 @@
+:: UserScript[script]
+/*
+    Prepend the content of the passage "Header" to every passage.
+    Append the content of the passage "Footer" to every passage.
+*/
+$(window).on('sm.passage.shown', function (eventObject, passageObject) {
+    var headerContent = window.story.render("Header");
+    var currentContent = passageObject.passage.render();
+    var footerContent = window.story.render("Footer");
+
+    $('tw-passage').html(headerContent + currentContent + footerContent);
+});
+
+const spec = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "A simple bar chart with ranged data (aka Gantt Chart).",
+  "data": {
+    "values": [
+      {"task": "A", "start": 1, "end": 3},
+      {"task": "B", "start": 3, "end": 8},
+      {"task": "C", "start": 8, "end": 10}
+    ]
+  },
+  "mark": "bar",
+  "encoding": {
+    "y": {"field": "task", "type": "ordinal"},
+    "x": {"field": "start", "type": "quantitative"},
+    "x2": {"field": "end"}
+  }
+};
+
+
+$(document.createElement('div'))
+  .attr('id', 'sidebar')
+  .insertBefore('tw-story');
+
+vegaEmbed("#sidebar", spec);
